@@ -1,0 +1,49 @@
+{
+  "name": "cscc2020-fall-backend-task",
+  "version": "1.0.0",
+  "repository": "git@gitlab.com:codingsans/codingchallenge2020fall/cscc2020-fall-backend-task.git",
+  "author": "LaTotty <latotty@codingsnas.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "test": "jest --config package.json",
+    "lint": "eslint src --ext .ts"
+  },
+  "devDependencies": {
+    "@codingsans/eslint-config": "4.0.0",
+    "@types/jest": "24.9.0",
+    "@types/node": "13.1.8",
+    "eslint": "6.8.0",
+    "jest": "24.9.0",
+    "prettier": "1.19.1",
+    "ts-jest": "24.3.0",
+    "ts-node": "8.6.2",
+    "typescript": "3.7.5"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "src/**/*.{ts,tsx}",
+      "!src/**/*.d.ts",
+      "!src/**/*.factory.ts",
+      "!src/commands/*"
+    ],
+    "coverageReporters": [
+      "html",
+      "json"
+    ],
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(tsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
+  }
+}
