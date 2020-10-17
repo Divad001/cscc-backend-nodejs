@@ -10,9 +10,13 @@ export const startApp = async (): Promise<void> => {
   app.get('/', (_req, res) => {
     res.send('Hello World');
   });
-  app.get('/breweries', async (_req, res) => {
+  app.get('/breweries', async (req, res) => {
+    let URL = 'https://api.openbrewerydb.org/breweries';
+    if (req.query.query !== undefined && req.query.query.length !== 0) {
+      URL = `${URL}/search?query=${req.query.query}`;
+    }
     try {
-      const result = await axios.get('https://api.openbrewerydb.org/breweries');
+      const result = await axios.get(URL);
       res.send(result.data);
     } catch (error) {
       res.send(error.response.status);
