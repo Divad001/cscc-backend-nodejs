@@ -2,21 +2,24 @@ import express from 'express';
 import morgan from 'morgan';
 import axios from 'axios';
 import dotenv from 'dotenv';
+import cors from 'cors';
 
 export const startApp = async (): Promise<void> => {
   // hard coded user
   type User = {
-    username: string;
+    email: string;
     password: string;
   };
   const testUser: User = {
-    username: 'test',
-    password: 'test',
+    email: 'test@test.test',
+    password: 'Testtest',
   };
   // create application
   const app = express();
   // add midleware log
   app.use(morgan('tiny'));
+  //cors
+  app.use(cors());
   // body-parser
   app.use(express.json());
   // jwt
@@ -32,7 +35,7 @@ export const startApp = async (): Promise<void> => {
       res.send(error.response.status);
     }
   });
-  async function getBreweries(req: any): Promise<void> {
+  async function getBreweries(req: express.Request): Promise<void> {
     let URL = 'https://api.openbrewerydb.org/breweries';
     if (req.query.query !== undefined && req.query.query.length !== 0) {
       URL = `${URL}/search?query=${req.query.query}`;
@@ -50,7 +53,7 @@ export const startApp = async (): Promise<void> => {
       res.sendStatus(400);
     } else {
       const reqUser: User = {
-        username: req.body.username,
+        email: req.body.email,
         password: req.body.password,
       };
       if (JSON.stringify(reqUser) === JSON.stringify(testUser)) {
@@ -58,7 +61,7 @@ export const startApp = async (): Promise<void> => {
           id: 1,
           reqUser,
         };
-        jwt.sign({ user: user }, process.env.SECRET_KEY, (_err: Error, token: string) => {
+        jwt.sign({ user: user }, process.env.SECRET_KEY, { expiresIn: 20 }, (_err: Error, token: string) => {
           res.json({
             token,
           });
